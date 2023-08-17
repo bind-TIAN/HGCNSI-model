@@ -77,6 +77,7 @@ adjacent_matrix = compute_adjacent_matrix(fssa_weight[s], weight_matrix, ni_hype
 ```
 
 ### The design of social interaction module
+---
 ```Python
 npeds = end_pos.size(1)
 end_pos = end_pos[0, :, :]
