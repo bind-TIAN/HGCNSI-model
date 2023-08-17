@@ -224,3 +224,24 @@ for pred_len in range(filter_value.shape[0]):
     filter_value[pred_len, :, 1] = new_y
 V_pred_rel_to_abs = nodes_rel_to_nodes_abs(filter_value.data.cpu().numpy().squeeze().copy(),V_x[-1, :, :].copy())
 ```
+The `normalization` operation is showed in the following code:
+```Python
+weight_cluster_ = weight_cluster_ / (sum(weight_cluster_) + 1e-20)
+```
+The array named `cum` store weights, and the summation function shows below:
+```Python
+cum_[j] = functools.reduce(lambda x, y: x + y, weight_cluster_[:j + 1])
+```
+The following code denotes Sampling Importance Re-sampling (`SIR`) operation:
+```Python
+for i in range(filter_value.shape[1]):
+    i_x = resampling_process(cum_[:, i, 0], particle_number)  # the second number is particle number
+    i_y = resampling_process(cum_[:, i, 1], particle_number)
+    next_values_cluster_copy[i, [k for k in range(particle_number)], 0] = next_values_cluster[i, i_x, 0]
+    next_values_cluster_copy[i, [k for k in range(particle_number)], 1] = next_values_cluster[i, i_y, 1]
+```
+```Python
+filter_value[pred_len, :, 0] = new_x
+filter_value[pred_len, :, 1] = new_y
+```
+The output results `new_x` and `new_y` represent the predicted trajectories of a person. 
