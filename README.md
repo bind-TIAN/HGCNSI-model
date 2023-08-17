@@ -76,6 +76,7 @@ def compute_adjacent_matrix(test_matrix, weight_matrix, ni_degree_matrix, test_m
 adjacent_matrix = compute_adjacent_matrix(fssa_weight[s], weight_matrix, ni_hyperedge_degree_matrix,fssa_weight[s].T)
 ```
 
+### The design of social interaction module
 ```Python
 npeds = end_pos.size(1)
 end_pos = end_pos[0, :, :]
