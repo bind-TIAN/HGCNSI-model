@@ -17,7 +17,13 @@ ___
 
 ## The instruction runs
 ___
+`Pre-process datasets`
 ```Bash
-python train.py --lr 0.01 --n_ssagcn 1 --n_txpcnn 7  --dataset eth --tag ssagcn-eth --use_lrschd --num_epochs 300
+python get_data.py  --dataset eth
+```
+
+`Training` process at `ZARA1` dataset.
+```Bash
+python train.py --lr 0.01 --n_ssagcn 2 --n_txpcnn 7  --dataset zara1 --tag ssagcn-zara1 --use_lrschd --num_epochs 400
 ```
 
