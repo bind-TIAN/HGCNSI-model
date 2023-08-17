@@ -14,3 +14,10 @@ ___
 *    `train.py` file is used for model training.
     
 *    `test.py` file for testing purposes, where the particle filter module is used for deterministic pedestrian trajectory prediction.
+
+## The instruction runs
+___
+```python
+python train.py --lr 0.01 --n_ssagcn 1 --n_txpcnn 7  --dataset eth --tag ssagcn-eth --use_lrschd --num_epochs 300
+```
+
