@@ -100,6 +100,7 @@ The shape of `VGG` is [1,14,14,512], and the value of `self.D` and `self.D_down`
 
 ```Python
 xn = nn.functional.adaptive_avg_pool2d(features_proj, (1, 1))
+self.channel_linear = nn.Linear(1, 1)
 xn = self.channel_linear(xn)
 xn = features_proj * self.sigmoid(xn)
 ```
@@ -109,11 +110,12 @@ The output shape of channel attention is [npeds, T_length, self.L, self.D_down],
 num_channels = T_length
 group_norm = nn.GroupNorm(1, num_channels).cuda()
 xs = group_norm(curr_rel_embedding)
+self.spatial_linear = nn.Linear(embedding_dim, embedding_dim)
 xs = self.spatial_linear(xs)
 xs = curr_rel_embedding * self.sigmoid(xs)
 out = torch.cat([xn, xs], dim=3)
 ```
-The output shape of spatial attention is [npeds, T_length, self.L, self.D_down], and the value of `self.L` and `self.D_down` is 196 and 16, respectively. 
+The output shape of spatial attention is [npeds, T_length, self.L, self.D_down], and the value of `self.L` and `self.D_down` is 196 and 16, respectively. The value of embedding_dim is 10.
 
 ```Python
 out = torch.cat([xn, xs], dim=3)
