@@ -171,4 +171,4 @@ def resampling_process(listname, n):
         dd[i] = j + 1
     return dd
 ```
-The code ```Python ran_w = np.random.rand(n)``` aims to generate `N` random numbers, and stored in the array `listname` are the weights of the particles. 
+The code ```ran_w = np.random.rand(n)``` aims to generate `N` random numbers, and stored in the array `listname` are the weights of the particles. 
