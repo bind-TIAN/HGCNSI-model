@@ -53,3 +53,11 @@ if ((0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (
                         fssa_weight[s, k, h] = 1.0 / l2_norm_distance
 ```
 The different number of values `1`,`2`,`3` and `4` denote different `collision probability`. The larger the number, and the larger the value, the more likely the collision is to occur.
+
+### The construction of hypergraph
+---
+Compute `hyperedges'` degree matrix
+```Python
+hyper_degree = np.array(fssa_weight[s].sum(0))
+ni_hyperedge_degree_matrix = np.diag(np.power(hyper_degree, -1).flatten())
+```
