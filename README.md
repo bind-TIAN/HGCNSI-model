@@ -91,11 +91,12 @@ curr_rel_embedding = curr_rel_embedding.view(curr_rel_embedding.shape[0], curr_r
 ```Python
 vgg = vgg.repeat(end_pos.shape[1] * npeds, 1, 1, 1)
 vgg = vgg.view(-1, self.D)
+self.pre_att_proj = nn.Linear(self.D, self.D_down)
 features_proj = self.pre_att_proj(vgg)
 features_proj = features_proj.view(-1, self.L, self.D_down)
 features_proj = features_proj.view(-1, T_length, self.L, self.D_down)
 ```
-The shape of `VGG` is [1,14,14,512].
+The shape of `VGG` is [1,14,14,512], and the value of `self.D` and `self.D_down` is 512 and 16, respectively. 
 
 ```Python
 xn = nn.functional.adaptive_avg_pool2d(features_proj, (1, 1))
