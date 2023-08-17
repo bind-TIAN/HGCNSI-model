@@ -32,3 +32,24 @@ python train.py --lr 0.01 --n_ssagcn 2 --n_txpcnn 7  --dataset zara1 --tag ssagc
 python test.py
 ```
 
+## Kernal code explanation
+___
+### Social interaction module
+---
+Here shows the code segment of `social_soft_attention` function appeared in `utils.py`.
+```Python
+if ((0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (
+                        0 <= cosine_theta <= 1)) or ((0 <= cosine_a <= 1) and (0 <= cosine_b <= sine_a) and (
+                        0 <= cosine_theta <= sine_a)) or ((0 <= cosine_a <= 1) and (sine_a <= cosine_b <= 1) and (
+                        -cosine_a <= cosine_theta <= 0)) or ((0 <= cosine_a <= 1) and (cosine_a <= cosine_b <= 1) and (
+                        -1 <= cosine_theta <= -cosine_a)):
+                    if (0 <= cosine_a <= 1) and (cosine_a <= cosine_b <= 1) and (-1 <= cosine_theta <= -cosine_a):  # 3
+                        fssa_weight[s, k, h] = 3.0 / l2_norm_distance
+                    if (0 <= cosine_a <= 1) and (sine_a <= cosine_b <= 1) and (-cosine_a <= cosine_theta <= 0):  # 4
+                        fssa_weight[s, k, h] = 4.0 / l2_norm_distance
+                    if (0 <= cosine_a <= 1) and (0 <= cosine_b <= sine_a) and (0 <= cosine_theta <= sine_a):  # 2
+                        fssa_weight[s, k, h] = 2.0 / l2_norm_distance
+                    if (0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (0 <= cosine_theta <= 1):  # 1
+                        fssa_weight[s, k, h] = 1.0 / l2_norm_distance
+```
+
