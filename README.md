@@ -88,3 +88,10 @@ curr_rel_embedding = curr_rel_embedding.view(curr_rel_embedding.shape[0], curr_r
 ```
 `npeds` represents the number of peddestrians, the end_pos means the last observed time step `t`.  `T_length` means the length of observation time.
 
+```Python
+vgg = vgg.repeat(end_pos.shape[1] * npeds, 1, 1, 1)
+vgg = vgg.view(-1, self.D)
+features_proj = self.pre_att_proj(vgg)
+features_proj = features_proj.view(-1, self.L, self.D_down)
+features_proj = features_proj.view(-1, T_length, self.L, self.D_down)
+```
