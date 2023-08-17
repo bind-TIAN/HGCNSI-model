@@ -102,3 +102,4 @@ xn = nn.functional.adaptive_avg_pool2d(features_proj, (1, 1))
 xn = self.channel_linear(xn)
 xn = features_proj * self.sigmoid(xn)
 ```
+The output shape of channel attention is [npeds, T_length, self.L, self.D_down], `self.L` is 196 and `self.D_down` is 16.
