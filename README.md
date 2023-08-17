@@ -159,7 +159,7 @@ def resampling_process(listname, n):
     dd = [0 for i in range(n)]
     for i in range(len(ran_w)):
         j = 0
-        while ran_w[i] > listname[j]:  # 若随机数在区间之内，则将下标(j+1)存入dd中；listname中存储的是粒子的权重
+        while ran_w[i] > listname[j]:  # If the random number is within the interval, the subscript (j+1) is stored in the dd array
             if j < n - 1:
                 if ran_w[i] <= listname[j + 1]:
                     break
