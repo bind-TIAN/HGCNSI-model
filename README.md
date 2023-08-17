@@ -13,3 +13,5 @@ ___
     train.py file is used for model training.
     
     test.py file for testing purposes, where the particle filter module is used for single-track pedestrian trajectory prediction.
+
+    `linux` `网络编程` `socket` `epoll`
