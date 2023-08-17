@@ -52,4 +52,4 @@ if ((0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (
                     if (0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (0 <= cosine_theta <= 1):  # 1
                         fssa_weight[s, k, h] = 1.0 / l2_norm_distance
 ```
-
+The different number of values `1`,`2`,`3` and `4` denote different `collision probability`. The larger the number, and the larger the value, the more likely the collision is to occur.
