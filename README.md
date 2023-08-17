@@ -2,7 +2,7 @@
 ___
 ## Introduction of .py files
 ___
-    'get_data.py' files are used to load data from public datasets and datasets collated from 'VGG19', and divide the data into 'train'/'test'/'val.pt' in the form of '.pt' for 'training', 'testing', and 'validation', respectively.
+    `get_data.py` files are used to load data from public datasets and datasets collated from `VGG19`, and divide the data into `train`/`test`/`val.pt` in the form of `.pt` for `training`, `testing`, and `validation`, respectively.
     
     metrics.py file provides the calculation method of the evaluation index (ADE/FDE), the calculation of Gaussian distribution loss and other related functions.
     
