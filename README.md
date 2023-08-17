@@ -76,3 +76,13 @@ def compute_adjacent_matrix(test_matrix, weight_matrix, ni_degree_matrix, test_m
 adjacent_matrix = compute_adjacent_matrix(fssa_weight[s], weight_matrix, ni_hyperedge_degree_matrix,fssa_weight[s].T)
 ```
 
+```Python
+npeds = end_pos.size(1)
+end_pos = end_pos[0, :, :]
+T_length = end_pos.shape[1]
+self.spatial_embedding = nn.Linear(2, self.embedding_dim)  # (2,10)
+curr_rel_embedding = self.spatial_embedding(end_pos)  # curr_rel_embedding.shape:[npeds,10]
+curr_rel_embedding = curr_rel_embedding.view(curr_rel_embedding.shape[0], curr_rel_embedding.shape[1], 1,self.embedding_dim).repeat(1, 1, self.L, 1)
+```
+`npeds` represents the number of peddestrians, the end_pos means the last observed time step `t`.  `T_length` means the length of observation time. ![image](https://github.com/bind-TIAN/HGCNSI-model/assets/50130421/e999004e-1d60-4ed6-ad9e-39711cbb65df)
+
