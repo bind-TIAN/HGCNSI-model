@@ -150,3 +150,25 @@ sequential_scene_attention = sequential_scene_attention.permute(2, 0, 1)
 sequential_scene_attention = sequential_scene_attention.unsqueeze(0)
 ```
 The above process realizes information exchange and dimensional compression between channels.
+
+### The design of SIRF module
+___
+```Python
+def resampling_process(listname, n):
+    ran_w = np.random.rand(n)  
+    dd = [0 for i in range(n)]
+    for i in range(len(ran_w)):
+        j = 0
+        while ran_w[i] > listname[j]:  # 若随机数在区间之内，则将下标(j+1)存入dd中；listname中存储的是粒子的权重
+            if j < n - 1:
+                if ran_w[i] <= listname[j + 1]:
+                    break
+                else:
+                    j += 1
+            else:
+                j = j - 1
+                break
+        dd[i] = j + 1
+    return dd
+```
+The code ```Python ran_w = np.random.rand(n)``` aims to generate `N` random numbers, and stored in the array `listname` are the weights of the particles. 
