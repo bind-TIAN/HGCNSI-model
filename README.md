@@ -95,3 +95,4 @@ features_proj = self.pre_att_proj(vgg)
 features_proj = features_proj.view(-1, self.L, self.D_down)
 features_proj = features_proj.view(-1, T_length, self.L, self.D_down)
 ```
+The shape of `VGG` is [1,14,14,512]
