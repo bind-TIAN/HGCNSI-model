@@ -176,54 +176,51 @@ The code ```ran_w = np.random.rand(n)``` aims to generate `N` random numbers, an
 In our paper, the design of our SIRF module is illustrated in the following python code:
 ```Python
 # take particle filter measure!
-            particle_number = 20  # represents the number of particles
-            filter_value = torch.zeros(V_pred.shape[0], V_pred.shape[1], 2)
-            weight_cluster_ = torch.zeros(particle_number, V_pred.shape[1], 2)
-            cum_ = torch.zeros(particle_number, V_pred.shape[1], 2)
-            for pred_len in range(filter_value.shape[0]):
-                o_mux = mux_deepcopy[pred_len, :].data.cpu()
-                o_muy = muy_deepcopy[pred_len, :].data.cpu()
-                o_sx = sx_deepcopy[pred_len, :].data.cpu()
-                o_sy = sy_deepcopy[pred_len, :].data.cpu()
-                o_corr = corr_deepcopy[pred_len, :].data.cpu()
-                predicted_x = torch.zeros(filter_value.shape[1])  # represents the npeds
-                predicted_y = torch.zeros(filter_value.shape[1])
-                next_values_cluster = torch.zeros(filter_value.shape[1], particle_number, 2)  # the first is npeds
-                for node in range(filter_value.shape[1]):
-                    mmean = [o_mux[node], o_muy[node]]
-                    ccov = [[o_sx[node] * o_sx[node], o_corr[node] * o_sx[node] * o_sy[node]],
+particle_number = 20  # represents the number of particles
+filter_value = torch.zeros(V_pred.shape[0], V_pred.shape[1], 2)
+weight_cluster_ = torch.zeros(particle_number, V_pred.shape[1], 2)
+cum_ = torch.zeros(particle_number, V_pred.shape[1], 2)
+for pred_len in range(filter_value.shape[0]):
+    o_mux = mux_deepcopy[pred_len, :].data.cpu()
+    o_muy = muy_deepcopy[pred_len, :].data.cpu()
+    o_sx = sx_deepcopy[pred_len, :].data.cpu()
+    o_sy = sy_deepcopy[pred_len, :].data.cpu()
+    o_corr = corr_deepcopy[pred_len, :].data.cpu()
+    predicted_x = torch.zeros(filter_value.shape[1])  # represents the npeds
+    predicted_y = torch.zeros(filter_value.shape[1])
+    next_values_cluster = torch.zeros(filter_value.shape[1], particle_number, 2)  # the first is npeds
+    for node in range(filter_value.shape[1]):
+        mmean = [o_mux[node], o_muy[node]]
+        ccov = [[o_sx[node] * o_sx[node], o_corr[node] * o_sx[node] * o_sy[node]],
                             [o_corr[node] * o_sx[node] * o_sy[node], o_sy[node] * o_sy[node]]]
-                    mmean = np.array(mmean, dtype='float')  # tensor -> numpy
-                    ccov = np.array(ccov, dtype='float')
-                    predicted_value = np.random.multivariate_normal(mmean, ccov, particle_number)
-                    predicted_x[node] = predicted_value[0][0]
-                    predicted_y[node] = predicted_value[0][1]
-                    next_values_cluster[node, :, 0] = torch.from_numpy(predicted_value[:, 0])
-                    next_values_cluster[node, :, 1] = torch.from_numpy(predicted_value[:, 1])
-                next_values_cluster_copy = next_values_cluster.clone()
-                particle_main = torch.zeros(filter_value.shape[1], 2)
-                for i in range(filter_value.shape[1]):
-                    particle_main_i = torch.from_numpy(np.mean(next_values_cluster.clone().numpy()[i, :], axis=0))
-                    particle_main[i] = particle_main_i
-                for i in range(next_values_cluster.shape[1]):
-                    particle_i = next_values_cluster[:, i]
-                    weight_cluster_[i] = 1 / (np.sqrt(2 * np.pi * (1 / particle_number))) * np.exp(
+        mmean = np.array(mmean, dtype='float')  # tensor -> numpy
+        ccov = np.array(ccov, dtype='float')
+        predicted_value = np.random.multivariate_normal(mmean, ccov, particle_number)
+        predicted_x[node] = predicted_value[0][0]
+        predicted_y[node] = predicted_value[0][1]
+        next_values_cluster[node, :, 0] = torch.from_numpy(predicted_value[:, 0])
+        next_values_cluster[node, :, 1] = torch.from_numpy(predicted_value[:, 1])
+    next_values_cluster_copy = next_values_cluster.clone()
+    particle_main = torch.zeros(filter_value.shape[1], 2)
+    for i in range(filter_value.shape[1]):
+        particle_main_i = torch.from_numpy(np.mean(next_values_cluster.clone().numpy()[i, :], axis=0))
+        particle_main[i] = particle_main_i
+    for i in range(next_values_cluster.shape[1]):
+        particle_i = next_values_cluster[:, i]
+        weight_cluster_[i] = 1 / (np.sqrt(2 * np.pi * (1 / particle_number))) * np.exp(
                         -(particle_main - particle_i) ** 2 / (2 * (1 / particle_number)))
-                weight_cluster_ = weight_cluster_ / (sum(weight_cluster_) + 1e-20)
-                for j in range(next_values_cluster.shape[1]):
-                    cum_[j] = functools.reduce(lambda x, y: x + y, weight_cluster_[:j + 1])
-                for i in range(filter_value.shape[1]):
-                    i_x = resampling_process(cum_[:, i, 0], particle_number)  # the second number is particle number
-                    i_y = resampling_process(cum_[:, i, 1], particle_number)
-                    next_values_cluster_copy[i, [k for k in range(particle_number)], 0] = next_values_cluster[
-                        i, i_x, 0]
-                    next_values_cluster_copy[i, [k for k in range(particle_number)], 1] = next_values_cluster[
-                        i, i_y, 1]
-                next_values_cluster_copy = next_values_cluster_copy.mean(axis=1, keepdim=False)
-                new_x = next_values_cluster_copy[:, 0]
-                new_y = next_values_cluster_copy[:, 1]
-                filter_value[pred_len, :, 0] = new_x
-                filter_value[pred_len, :, 1] = new_y
-            V_pred_rel_to_abs = nodes_rel_to_nodes_abs(filter_value.data.cpu().numpy().squeeze().copy(),
-                                                       V_x[-1, :, :].copy())
+    weight_cluster_ = weight_cluster_ / (sum(weight_cluster_) + 1e-20)
+    for j in range(next_values_cluster.shape[1]):
+        cum_[j] = functools.reduce(lambda x, y: x + y, weight_cluster_[:j + 1])
+    for i in range(filter_value.shape[1]):
+        i_x = resampling_process(cum_[:, i, 0], particle_number)  # the second number is particle number
+        i_y = resampling_process(cum_[:, i, 1], particle_number)
+        next_values_cluster_copy[i, [k for k in range(particle_number)], 0] = next_values_cluster[i, i_x, 0]
+        next_values_cluster_copy[i, [k for k in range(particle_number)], 1] = next_values_cluster[i, i_y, 1]
+    next_values_cluster_copy = next_values_cluster_copy.mean(axis=1, keepdim=False)
+    new_x = next_values_cluster_copy[:, 0]
+    new_y = next_values_cluster_copy[:, 1]
+    filter_value[pred_len, :, 0] = new_x
+    filter_value[pred_len, :, 1] = new_y
+V_pred_rel_to_abs = nodes_rel_to_nodes_abs(filter_value.data.cpu().numpy().squeeze().copy(),V_x[-1, :, :].copy())
 ```
