@@ -95,4 +95,10 @@ features_proj = self.pre_att_proj(vgg)
 features_proj = features_proj.view(-1, self.L, self.D_down)
 features_proj = features_proj.view(-1, T_length, self.L, self.D_down)
 ```
-The shape of `VGG` is [1,14,14,512]
+The shape of `VGG` is [1,14,14,512].
+
+```Python
+xn = nn.functional.adaptive_avg_pool2d(features_proj, (1, 1))
+xn = self.channel_linear(xn)
+xn = features_proj * self.sigmoid(xn)
+```
