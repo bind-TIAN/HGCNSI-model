@@ -103,3 +103,12 @@ xn = self.channel_linear(xn)
 xn = features_proj * self.sigmoid(xn)
 ```
 The output shape of channel attention is [npeds, T_length, self.L, self.D_down], `self.L` is 196 and `self.D_down` is 16.
+
+```Python
+num_channels = T_length
+group_norm = nn.GroupNorm(1, num_channels).cuda()
+xs = group_norm(curr_rel_embedding)
+xs = self.spatial_linear(xs)
+xs = curr_rel_embedding * self.sigmoid(xs)
+```
+The output shape of spatial attention is [npeds, T_length, self.L, self.D_down], and the value of `self.L` and `self.D_down` is 196 and 16, respectively.
