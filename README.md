@@ -19,7 +19,7 @@ ___
 ___
 `Pre-process datasets`
 ```Bash
-python get_data.py  --dataset eth
+python get_data.py  --dataset zara1
 ```
 
 `Training` process at `ZARA1` dataset.
