@@ -110,5 +110,11 @@ group_norm = nn.GroupNorm(1, num_channels).cuda()
 xs = group_norm(curr_rel_embedding)
 xs = self.spatial_linear(xs)
 xs = curr_rel_embedding * self.sigmoid(xs)
+out = torch.cat([xn, xs], dim=3)
 ```
-The output shape of spatial attention is [npeds, T_length, self.L, self.D_down], and the value of `self.L` and `self.D_down` is 196 and 16, respectively.
+The output shape of spatial attention is [npeds, T_length, self.L, self.D_down], and the value of `self.L` and `self.D_down` is 196 and 16, respectively. 
+
+```Python
+out = torch.cat([xn, xs], dim=3)
+```
+The shape of `out` is [npeds, T_length, self.L, self.D_down+self.embedding_dim], and the value of `self.embedding_dim` is 10. 
