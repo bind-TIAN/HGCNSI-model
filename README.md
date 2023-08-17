@@ -122,7 +122,7 @@ The shape of `out` is [npeds, T_length, self.L, self.D_down+self.embedding_dim],
 ```Python
 groups = 2
 bs, chnls, h, w = out.data.size()
-if chnls % groups:
+if chnls % groups:    # 2 denotes the number of groups
 sequential_scene_attention = out
 else:
 chnls_per_group = chnls // groups
@@ -130,12 +130,20 @@ sequential_scene_attention = out.view(bs, groups, chnls_per_group, h, w)
 sequential_scene_attention = torch.transpose(sequential_scene_attention, 1, 2).contiguous()
 sequential_scene_attention = sequential_scene_attention.view(bs, -1, h, w)
 sequential_scene_attention = sequential_scene_attention.sum(axis=2)
+
+# dimension exchange process
 sequential_scene_attention = sequential_scene_attention.permute(0, 2, 1)
+
+# use 1x1 convolution
 dimentional1_conv = nn.Conv2d(self.D_down + self.embedding_dim, self.bottleneck_dim, kernel_size=1, stride=1)
 dimentional1_conv = dimentional1_conv.cuda()
 sequential_scene_attention = dimentional1_conv(sequential_scene_attention.unsqueeze(-1))
 sequential_scene_attention = sequential_scene_attention.squeeze(-1)
+
+# dimension exchange process
 sequential_scene_attention = sequential_scene_attention.permute(2, 0, 1)
+
+# expanding on dimensions
 sequential_scene_attention = sequential_scene_attention.unsqueeze(0)
 ```
-The above process realizes information exchange and dimensional compression between channels, 
+The above process realizes information exchange and dimensional compression between channels.
