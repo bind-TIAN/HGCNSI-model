@@ -61,3 +61,8 @@ Compute `hyperedges'` degree matrix
 hyper_degree = np.array(fssa_weight[s].sum(0))
 ni_hyperedge_degree_matrix = np.diag(np.power(hyper_degree, -1).flatten())
 ```
+Compute hypernodes' degree matrix
+```Python
+hyper_node = np.array(fssa_weight[s].sum(1))
+ni_hypernodes_degree_matrix = np.diag(np.power(hyper_node, -1).flatten())
+```
