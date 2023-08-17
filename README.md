@@ -27,3 +27,8 @@ python get_data.py  --dataset eth
 python train.py --lr 0.01 --n_ssagcn 2 --n_txpcnn 7  --dataset zara1 --tag ssagcn-zara1 --use_lrschd --num_epochs 400
 ```
 
+`Testing` process
+```Bash
+python test.py
+```
+
