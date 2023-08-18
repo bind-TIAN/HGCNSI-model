@@ -355,6 +355,7 @@ The above code shows the details of the hypergraph partition.
 ## Pedestrian trajectory visualization
 ![Image text](photo/59.png) 
 ![Image text](photo/61.png) 
+The above two diagrams show the strong and subtle interaction between pedestrians, respectively. The `darker` the color of the edge between pedestrians indicates `closer interaction`, and the `lighter` the color indicates the `more distant` the interaction.
 
 
 
