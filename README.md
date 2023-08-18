@@ -22,7 +22,7 @@ ___
 
 *    In the folder named data, there are many files with the `.pt` suffix, these `.pt` files are processed from the original data set, and the processing process goes through some key functions, such as: `social_soft_attention`.
 *    The dataset named `checkpoint` store pre-trained model files, with several files ending in `.pkl` and `.pth` in each dataset category.
-
+*    The dataset named `baseline` stores the baseline of experiments showed in `Table 4` of our paper.
 ## The instruction runs
 ___
 `Pre-process datasets`
