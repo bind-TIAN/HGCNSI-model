@@ -245,3 +245,106 @@ filter_value[pred_len, :, 0] = new_x
 filter_value[pred_len, :, 1] = new_y
 ```
 The output results `new_x` and `new_y` represent the predicted trajectories of a person. 
+
+The following code shows the situation assuming that each pedestrian interacts with all the pedestrians around him:
+```Python
+for s in range(seq_len):
+    step_ = seq_[:, :, s]  
+    step_rel = seq_rel[:, :, s]
+    # initialize a adjacent matrix
+    for h in range(len(step_)):
+        V[s, h, :] = step_rel[h]
+        fssa_weight[s, h, h] = 1.0
+        for k in range(len(step_)):
+            fssa_weight[s, k, h] = 1.0
+    original_weight_list = np.array([1.0 for i in range(max_nodes)])
+    weight_matrix = np.diag(original_weight_list)
+    # compute hypernodes' degree matrix
+    hyper_node = np.array(fssa_weight[s].sum(1))
+    ni_hypernodes_degree_matrix = np.diag(np.power(hyper_node, -1).flatten())
+    # compute adjacent matrix
+    adjacent_matrix = fssa_weight[s].dot(weight_matrix).dot(fssa_weight[s].T)
+    fssa_weight[s] = softmax_operation(adjacent_matrix)
+```
+```Python
+for h in range(len(step_)):
+    V[s, h, :] = step_rel[h]
+    fssa_weight[s, h, h] = 1.0
+    for k in range(len(step_)):
+        fssa_weight[s, k, h] = 1.0
+```
+where this code snippet assigns a weight value of 1 to every two pedestrians that interact with each other.
+
+The following code shows that when the interaction between pedestrians is reasonably divided and formed to form a hypergraph where all hyper-edge weights are always 1, a static inter-pedestrian interaction diagram is used to model the high-order interaction relationship between pedestrians.
+```Python
+for s in range(seq_len):
+        step_ = seq_[:, :, s]
+        step_rel = seq_rel[:, :, s]
+    
+        # initialize a incidence matrix
+        for h in range(len(step_)):
+            V[s, h, :] = step_rel[h]
+            fssa_weight[s, h, h] = 1.0
+            for k in range(len(step_)):
+                if k == h:
+                    continue
+                cosine_a = get_cosine(step_[h], step_[k], step_rel[h])
+                cosine_b = get_cosine(step_[k], step_[h], step_rel[k])
+                cosine_theta = get_cosine_angle(step_rel[h], step_rel[k])
+                sine_a = get_sin(step_[h], step_[k], step_rel[h])
+    
+                if ((0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (
+                        0 <= cosine_theta <= 1)) or ((0 <= cosine_a <= 1) and (0 <= cosine_b <= sine_a) and (
+                        0 <= cosine_theta <= sine_a)) or ((0 <= cosine_a <= 1) and (sine_a <= cosine_b <= 1) and (
+                        -cosine_a <= cosine_theta <= 0)) or ((0 <= cosine_a <= 1) and (cosine_a <= cosine_b <= 1) and (
+                        -1 <= cosine_theta <= -cosine_a)):
+                    if (0 <= cosine_a <= 1) and (cosine_a <= cosine_b <= 1) and (-1 <= cosine_theta <= -cosine_a):
+                        fssa_weight[s, k, h] = 1.0
+                    if (0 <= cosine_a <= 1) and (sine_a <= cosine_b <= 1) and (-cosine_a <= cosine_theta <= 0):
+                        fssa_weight[s, k, h] = 1.0
+                    if (0 <= cosine_a <= 1) and (0 <= cosine_b <= sine_a) and (0 <= cosine_theta <= sine_a):
+                        fssa_weight[s, k, h] = 1.0
+                    if (0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (0 <= cosine_theta <= 1):
+                        fssa_weight[s, k, h] = 1.0
+    
+        original_weight_list = np.array([1.0 for i in range(max_nodes)])
+        weight_matrix = np.diag(original_weight_list)
+    
+        # compute hyperedges' degree matrix
+        hyper_degree = np.array(fssa_weight[s].sum(0))
+        ni_hyperedge_degree_matrix = np.diag(np.power(hyper_degree, -1).flatten())
+    
+        # # compute hypernodes' degree matrix
+        hyper_node = np.array(fssa_weight[s].sum(1))
+        ni_hypernodes_degree_matrix = np.diag(np.power(hyper_node, -1).flatten())
+    
+        # compute adjacent matrix
+        adjacent_matrix = compute_adjacent_matrix(fssa_weight[s], weight_matrix, ni_hyperedge_degree_matrix,
+                                                  fssa_weight[s].T)
+        adjacent_matrix_softmax = softmax_operation(adjacent_matrix)
+        fssa_weight[s] = ni_hypernodes_degree_matrix.dot(adjacent_matrix_softmax).dot(ni_hypernodes_degree_matrix)
+```
+
+```Python
+ if ((0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (
+                        0 <= cosine_theta <= 1)) or ((0 <= cosine_a <= 1) and (0 <= cosine_b <= sine_a) and (
+                        0 <= cosine_theta <= sine_a)) or ((0 <= cosine_a <= 1) and (sine_a <= cosine_b <= 1) and (
+                        -cosine_a <= cosine_theta <= 0)) or ((0 <= cosine_a <= 1) and (cosine_a <= cosine_b <= 1) and (
+                        -1 <= cosine_theta <= -cosine_a)):
+                    if (0 <= cosine_a <= 1) and (cosine_a <= cosine_b <= 1) and (-1 <= cosine_theta <= -cosine_a):
+                        fssa_weight[s, k, h] = 1.0
+                    if (0 <= cosine_a <= 1) and (sine_a <= cosine_b <= 1) and (-cosine_a <= cosine_theta <= 0):
+                        fssa_weight[s, k, h] = 1.0
+                    if (0 <= cosine_a <= 1) and (0 <= cosine_b <= sine_a) and (0 <= cosine_theta <= sine_a):
+                        fssa_weight[s, k, h] = 1.0
+                    if (0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (0 <= cosine_theta <= 1):
+                        fssa_weight[s, k, h] = 1.0
+```
+The above code shows the details of the hypergraph partition.
+
+
+
+
+
+
+
