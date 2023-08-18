@@ -86,7 +86,7 @@ self.spatial_embedding = nn.Linear(2, self.embedding_dim)  # (2,10)
 curr_rel_embedding = self.spatial_embedding(end_pos)  # curr_rel_embedding.shape:[npeds,10]
 curr_rel_embedding = curr_rel_embedding.view(curr_rel_embedding.shape[0], curr_rel_embedding.shape[1], 1,self.embedding_dim).repeat(1, 1, self.L, 1)
 ```
-`npeds` represents the number of peddestrians, the end_pos means the last observed time step `t`.  `T_length` means the length of observation time.
+`npeds` represents the number of peddestrians, the `end_pos` means the last observed time step `t`.  `T_length` means the length of observation time.
 
 ```Python
 vgg = vgg.repeat(end_pos.shape[1] * npeds, 1, 1, 1)
