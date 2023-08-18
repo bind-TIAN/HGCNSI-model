@@ -352,6 +352,9 @@ for s in range(seq_len):
 ```
 The above code shows the details of the hypergraph partition.
 
+## Pedestrian trajectory visualization
+![Image text](photo/100.png) 
+
 
 
 
