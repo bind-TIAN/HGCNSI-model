@@ -364,7 +364,7 @@ The above two diagrams show the strong and subtle interaction between pedestrian
 ___
 ![Image text](photo/Figure_17.png)
 ![Image text](photo/Figure_hgcn5_zara1.png) 
-
+The above two diagrams show the heat map of pedestrian trajectory prediction. The blue dotted line represents the observation trajectory, the red dotted line represents the actual trajectory, and the different colors of the thermal region indicate different estimated ranges of pedestrian movement.
 
 
 
