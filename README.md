@@ -259,7 +259,7 @@ The output results `new_x` and `new_y` represent the predicted trajectories of a
 
 ## Some thinkings about the construction of hyperedges in hypergraphs
 ___
-The following code shows the situation assuming that each pedestrian interacts with all the pedestrians around him:
+The following code shows the situation assuming that each pedestrian interacts with all the pedestrians around him/her:
 ```Python
 for s in range(seq_len):
     step_ = seq_[:, :, s]  
