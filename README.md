@@ -15,6 +15,13 @@ ___
     
 *    `test.py` file for testing purposes, where the particle filter module is used for deterministic pedestrian trajectory prediction.
 
+## The introduction of data files
+___
+*
+    The dataset named `dataset` contains the dataset used in the experiment. In a `dataset` dataset, the dataset named `raw` holds the original dataset, which contains five         categories: `ETH`\`HOTEL`\`UNIV`\`ZARA1` and `ZARA2`. Each subclass is divided into a `training set`, a `validation set`, and a `test set`, and consists of a `.pkl` and a `.txt` file. For example, a dataset named ETH has a `.txt` file named `biwi_eth`, and the data indexes in that file are: `frame_id`, `ped_id`, `x-coordinates` and `y-coordinates`.
+
+*    In the folder named data, there are many files with the `.pt` suffix, these `.pt` files are processed from the original data set, and the processing process goes through some key functions, such as: `social_soft_attention`.
+
 ## The instruction runs
 ___
 `Pre-process datasets`
