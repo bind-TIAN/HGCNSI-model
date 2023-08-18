@@ -273,9 +273,9 @@ for h in range(len(step_)):
     for k in range(len(step_)):
         fssa_weight[s, k, h] = 1.0
 ```
-where this code snippet assigns a weight value of 1 to every two pedestrians that interact with each other.
+where this code snippet assigns a weight value of `1` to every two pedestrians that interact with each other.
 
-The following code shows that when the interaction between pedestrians is reasonably divided and formed to form a hypergraph where all hyper-edge weights are always 1, a static inter-pedestrian interaction diagram is used to model the high-order interaction relationship between pedestrians.
+The following code shows that when the interaction between pedestrians is reasonably divided and formed to form a hypergraph where all hyper-edge weights are always `1`, a `static` inter-pedestrian interaction diagram is used to model the `high-order interaction` relationship between pedestrians.
 ```Python
 for s in range(seq_len):
         step_ = seq_[:, :, s]
@@ -327,18 +327,18 @@ for s in range(seq_len):
 
 ```Python
  if ((0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (
-                        0 <= cosine_theta <= 1)) or ((0 <= cosine_a <= 1) and (0 <= cosine_b <= sine_a) and (
-                        0 <= cosine_theta <= sine_a)) or ((0 <= cosine_a <= 1) and (sine_a <= cosine_b <= 1) and (
-                        -cosine_a <= cosine_theta <= 0)) or ((0 <= cosine_a <= 1) and (cosine_a <= cosine_b <= 1) and (
-                        -1 <= cosine_theta <= -cosine_a)):
-                    if (0 <= cosine_a <= 1) and (cosine_a <= cosine_b <= 1) and (-1 <= cosine_theta <= -cosine_a):
-                        fssa_weight[s, k, h] = 1.0
-                    if (0 <= cosine_a <= 1) and (sine_a <= cosine_b <= 1) and (-cosine_a <= cosine_theta <= 0):
-                        fssa_weight[s, k, h] = 1.0
-                    if (0 <= cosine_a <= 1) and (0 <= cosine_b <= sine_a) and (0 <= cosine_theta <= sine_a):
-                        fssa_weight[s, k, h] = 1.0
-                    if (0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (0 <= cosine_theta <= 1):
-                        fssa_weight[s, k, h] = 1.0
+    0 <= cosine_theta <= 1)) or ((0 <= cosine_a <= 1) and (0 <= cosine_b <= sine_a) and (
+    0 <= cosine_theta <= sine_a)) or ((0 <= cosine_a <= 1) and (sine_a <= cosine_b <= 1) and (
+    -cosine_a <= cosine_theta <= 0)) or ((0 <= cosine_a <= 1) and (cosine_a <= cosine_b <= 1) and (
+    -1 <= cosine_theta <= -cosine_a)):
+    if (0 <= cosine_a <= 1) and (cosine_a <= cosine_b <= 1) and (-1 <= cosine_theta <= -cosine_a):
+        fssa_weight[s, k, h] = 1.0
+    if (0 <= cosine_a <= 1) and (sine_a <= cosine_b <= 1) and (-cosine_a <= cosine_theta <= 0):
+        fssa_weight[s, k, h] = 1.0
+    if (0 <= cosine_a <= 1) and (0 <= cosine_b <= sine_a) and (0 <= cosine_theta <= sine_a):
+        fssa_weight[s, k, h] = 1.0
+    if (0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (0 <= cosine_theta <= 1):
+        fssa_weight[s, k, h] = 1.0
 ```
 The above code shows the details of the hypergraph partition.
 
