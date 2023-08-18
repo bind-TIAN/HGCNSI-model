@@ -368,13 +368,15 @@ ___
 The above two diagrams show the heat map of pedestrian trajectory prediction. The `blue dotted line` represents the `observation trajectory`, the `red dotted line` represents the `actual trajectory`, and the `different colors of the thermal region` indicate `different estimated ranges` of pedestrian movement.
 
 ### Predicted trajectories
+___
 ![Image text](photo/hgcn-zara1-14-best.png)
 ![Image text](photo/hgcn-zara1-15-best.png)
 
 The above two diagrams show the pedestrian trajectory prediction diagram in different scenarios. The `blue dots` in the figure represent the movement trajectory of pedestrians during `the observation period`, the `red dots` represent the true movement trajectory of pedestrians `after the end of the observation period`, and the `green dots` represent the `predicted trajectory`.
 
-
-
+## The ending
+___
+Thanks for visiting and have a great day!😄
 
 
 
