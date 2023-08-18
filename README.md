@@ -353,9 +353,16 @@ for s in range(seq_len):
 The above code shows the details of the hypergraph partition.
 
 ## Pedestrian trajectory visualization
+___
+### Diagram of interactions between nodes
+___
 ![Image text](photo/59.png) 
 ![Image text](photo/61.png) 
 The above two diagrams show the strong and subtle interaction between pedestrians, respectively. The `darker` the color of the edge between pedestrians indicates `closer interaction`, and the `lighter` the color indicates the `more distant` the interaction.
+
+### Pedestrian trajectory prediction heatmap
+___
+![Image text](photo/Figure_hgcn5_zara1.png) 
 
 
 
