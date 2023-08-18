@@ -1,5 +1,8 @@
 # HGCNSI-model
 ___
+## Write on the front
+___
+Hello, fellow GitHub users! Welcome to my profile page. Let's start this wonderful journey. ❤
 ## Introduction of .py files
 ___
 *
