@@ -39,18 +39,18 @@ ___
 Here shows the code segment of `social_soft_attention` function appeared in `utils.py`.
 ```Python
 if ((0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (
-                        0 <= cosine_theta <= 1)) or ((0 <= cosine_a <= 1) and (0 <= cosine_b <= sine_a) and (
-                        0 <= cosine_theta <= sine_a)) or ((0 <= cosine_a <= 1) and (sine_a <= cosine_b <= 1) and (
-                        -cosine_a <= cosine_theta <= 0)) or ((0 <= cosine_a <= 1) and (cosine_a <= cosine_b <= 1) and (
-                        -1 <= cosine_theta <= -cosine_a)):
-                    if (0 <= cosine_a <= 1) and (cosine_a <= cosine_b <= 1) and (-1 <= cosine_theta <= -cosine_a):  # 3
-                        fssa_weight[s, k, h] = 3.0 / l2_norm_distance
-                    if (0 <= cosine_a <= 1) and (sine_a <= cosine_b <= 1) and (-cosine_a <= cosine_theta <= 0):  # 4
-                        fssa_weight[s, k, h] = 4.0 / l2_norm_distance
-                    if (0 <= cosine_a <= 1) and (0 <= cosine_b <= sine_a) and (0 <= cosine_theta <= sine_a):  # 2
-                        fssa_weight[s, k, h] = 2.0 / l2_norm_distance
-                    if (0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (0 <= cosine_theta <= 1):  # 1
-                        fssa_weight[s, k, h] = 1.0 / l2_norm_distance
+    0 <= cosine_theta <= 1)) or ((0 <= cosine_a <= 1) and (0 <= cosine_b <= sine_a) and (
+    0 <= cosine_theta <= sine_a)) or ((0 <= cosine_a <= 1) and (sine_a <= cosine_b <= 1) and (
+    -cosine_a <= cosine_theta <= 0)) or ((0 <= cosine_a <= 1) and (cosine_a <= cosine_b <= 1) and (
+    -1 <= cosine_theta <= -cosine_a)):
+    if (0 <= cosine_a <= 1) and (cosine_a <= cosine_b <= 1) and (-1 <= cosine_theta <= -cosine_a):  # 3
+        fssa_weight[s, k, h] = 3.0 / l2_norm_distance
+    if (0 <= cosine_a <= 1) and (sine_a <= cosine_b <= 1) and (-cosine_a <= cosine_theta <= 0):  # 4
+        fssa_weight[s, k, h] = 4.0 / l2_norm_distance
+    if (0 <= cosine_a <= 1) and (0 <= cosine_b <= sine_a) and (0 <= cosine_theta <= sine_a):  # 2
+        fssa_weight[s, k, h] = 2.0 / l2_norm_distance
+    if (0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (0 <= cosine_theta <= 1):  # 1
+        fssa_weight[s, k, h] = 1.0 / l2_norm_distance
 ```
 The different number of values `1`,`2`,`3` and `4` denote different `collision probability`. The larger the number, and the larger the value, the more likely the collision is to occur.
 
