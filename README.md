@@ -62,7 +62,7 @@ if ((0 <= cosine_a <= 1) and (-cosine_a <= cosine_b <= 0) and (
 ```
 The different number of values `1`,`2`,`3` and `4` denote different `collision probability`. The larger the number, and the larger the value, the more likely the collision is to occur.
 
-*We have also designed some other methods to compute the weights of hyper-edges, and some strategies on the construction of association matrices in hypergraphs, please refer to the utils.py code for detailed design ideas. Future work focuses on exploring variable hyperedge collision probability models.😅*
+We have also designed some other methods to compute the weights of hyper-edges, and some strategies on the construction of association matrices in hypergraphs, please refer to the utils.py code for detailed design ideas. Future work focuses on exploring variable hyperedge collision probability models.😅
 
 ### The construction of hypergraph
 ---
