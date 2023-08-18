@@ -362,6 +362,7 @@ The above two diagrams show the strong and subtle interaction between pedestrian
 
 ### Pedestrian trajectory prediction heatmap
 ___
+![Image text](photo/Figure_17.png)
 ![Image text](photo/Figure_hgcn5_zara1.png) 
 
 
