@@ -35,12 +35,18 @@ python get_data.py  --dataset zara1
 
 `Training` process at `ZARA1` dataset.
 ```Bash
-python train.py --lr 0.01 --n_ssagcn 2 --n_txpcnn 7  --dataset zara1 --tag ssagcn-zara1 --use_lrschd --num_epochs 400
+python train.py --lr 0.01 --n_ssagcn 2 --n_txpcnn 7  --dataset zara1 --tag hgcnsi-zara1 --use_lrschd --num_epochs 400
 ```
 
 `Testing` process
 ```Bash
 python test.py
+```
+
+## Parameter settings of training process
+An example of training on `zara1` dataset
+```Bash
+Namespace(input_size=5, output_size=5, n_ssagcn=2, n_txpcnn=7, kernel_size=3, obs_seq_len=8, pred_seq_len=12, dataset='zara1', batch_size=450, num_epochs=300, clip_grad=None, lr=0.01, lr_sh_rate=150, use_lrschd=True, scale=4, tag='hgcnsi-zara1')
 ```
 
 ## Kernal code explanation
