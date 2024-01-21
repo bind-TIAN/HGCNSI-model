@@ -384,7 +384,7 @@ The above two diagrams show the pedestrian trajectory prediction diagram in diff
 
 ## The ending
 ___
-Thanks for visiting and have a great day!😄
+If you are interested in our research, please cite our paper titled “Pedestrian trajectory prediction with high-order interactions” from the SPIE digital library! Thanks for visiting and have a great day!😄
 
 
 
